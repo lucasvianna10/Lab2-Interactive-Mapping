@@ -90,10 +90,10 @@ center: [-100.38, 39], // starting position
 zoom: 3.5// starting zoom
 });
 
-
+//linking the data from ski resorts to the click function
 map.on('click', function(e) {
   var features = map.queryRenderedFeatures(e.point, {
-    layers: ['vail-resorts'] // replace this with the name of the layer
+    layers: ['vail-resorts'] 
 
 	});
 
