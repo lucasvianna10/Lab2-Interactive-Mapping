@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Vail Ski Resorts</title>
+<meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.js"></script>
+<link href="https://api.mapbox.com/mapbox-gl-js/v1.8.1/mapbox-gl.css" rel="stylesheet" />
+<style>
+
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+h2,
+h3 {
+  margin: 10px;
+  font-size: 1.2em;
+}
+
+h3 {
+  font-size: 1em;
+}
+
+p {
+  font-size: 0.85em;
+  margin: 10px;
+  text-align: left;
+}
+
+/**
+* Create a position for the map
+* on the page */
+#map {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+}
+
+/**
+* Set rules for how the map overlays
+* (information box ) will be displayed
+* on the page. */
+.map-overlay {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: rgba(255, 255, 255, 0.8);
+  margin-right: 20px;
+  font-family: Arial, sans-serif;
+  overflow: auto;
+  border-radius: 3px;
+}
+
+#features {
+  top: 0;
+  height: 150px;
+  margin-top: 20px;
+  width: 250px;
+};
+
+.mapboxgl-popup {
+max-width: 400px;
+font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+
+
+</style>
+</head>
+<body>
+
+<div id="map"></div>
+<div class='map-overlay' id='features'><h2>Vail Ski Resorts On The 'Epic Pass', And The Closest International Airport To Each One </h2><div id='pd'><p>Click On The Ski And Airport Icons!</p></div></div>
+<div class='map-overlay' id='legend'></div>
+<div class='map-overlay' id='legend'></div>
+
+
+
+
+<script>
+	mapboxgl.accessToken = 'pk.eyJ1IjoibHVjYXN2aWFubmEiLCJhIjoiY2s2andpODk0MDBtcTNmbnRsYng1b2FjayJ9.QNUykVW66KmhwktgGT6Nuw';
+var map = new mapboxgl.Map({
+container: 'map',
+style: 'mapbox://styles/lucasvianna/ck7ijfli01dnk1imylx7yq8l5', //hosted style id
+center: [-100.38, 39], // starting position
+zoom: 3.5// starting zoom
+});
+
+
+map.on('click', function(e) {
+  var features = map.queryRenderedFeatures(e.point, {
+    layers: ['vail-resorts'] // replace this with the name of the layer
+
+	});
+
+
+
+  if (!features.length) {
+    return;
+  }
+
+  var feature = features[0];
+
+  var popup = new mapboxgl.Popup({ offset: [0, -15] })
+    .setLngLat(feature.geometry.coordinates)
+    .setHTML('<h3>' + feature.properties.title + '</h3><p>' + feature.properties.description + '</p>')
+    .addTo(map);
+	});
+
+	map.on('click', function(e) {
+	var features = map.queryRenderedFeatures(e.point, {
+    layers: ['airports']
+  });
+
+  if (!features.length) {
+    return;
+  }
+
+  var feature = features[0];
+
+  var popup = new mapboxgl.Popup({ offset: [0, -15] })
+    .setLngLat(feature.geometry.coordinates)
+    .setHTML('<h3>' + feature.properties.title + '</h3><p>' + '</p>')
+    .addTo(map);
+});
+
+</script>
+
+</body>
+</html>
